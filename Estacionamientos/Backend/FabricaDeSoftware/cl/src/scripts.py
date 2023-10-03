@@ -5,13 +5,14 @@ import sys
 sys.path.append(str(Path(__file__).parent / 'yolov5'))
 from yolov5.models.experimental import attempt_load
 from yolov5.utils.dataloaders import LoadImages
-from yolov5.utils.general import non_max_suppression
+from yolov5.utils.general import check_img_size, non_max_suppression, apply_classifier, scale_segments, xyxy2xywh
+from yolov5.utils.downloads import attempt_download
 
 def count_vehicles(img_paths):
     # Cargamos el modelo YOLOv5
     model = attempt_load('yolov5/Backend/yolov5s.pt')
 
-    # Definimos los id
+    #Se definen las id de los vehiculos a detectar
     car_id = 2
     truck_id = 7
 
