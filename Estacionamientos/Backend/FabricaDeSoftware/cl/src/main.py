@@ -78,24 +78,26 @@ async def available_spaces():
     global img_counter
 
     camara0 = cv2.VideoCapture(0)
-    camara1 = cv2.VideoCapture(1)
-
-    ret0,frame0 = camara0.read()
-    ret1,frame1 = camara1.read()
-
-    if ret0 and ret1 == True:
-        print("Aderntrooo")
-
-        cv2.imwrite('detectar/IMG'+str(img_counter)+'.jpeg',frame0)
-        cv2.imwrite('detectar/IMG'+str(img_counter + 1)+'.jpeg',frame1)
-        count=['detectar/IMG'+str(img_counter)+'.jpeg', 'detectar/IMG'+str(img_counter + 1)+'.jpeg']
-        USED_SPOTS = count_vehicles(count)
-        img_counter=img_counter+2
+    if camara1.isOpened():
         
-        print(USED_SPOTS) 
-        
-    camara0.release()
-    camara1.release()
+        camara1 = cv2.VideoCapture(1)
+
+        ret0,frame0 = camara0.read()
+        ret1,frame1 = camara1.read()
+
+        if ret0 and ret1 == True:
+            print("Aderntrooo")
+
+            cv2.imwrite('detectar/IMG'+str(img_counter)+'.jpeg',frame0)
+            cv2.imwrite('detectar/IMG'+str(img_counter + 1)+'.jpeg',frame1)
+            count=['detectar/IMG'+str(img_counter)+'.jpeg', 'detectar/IMG'+str(img_counter + 1)+'.jpeg']
+            USED_SPOTS = count_vehicles(count)
+            img_counter=img_counter+2
+            
+            print(USED_SPOTS) 
+            
+        camara0.release()
+        camara1.release()
 
     return {"cars_parked": USED_SPOTS, "available_spaces": TOTAL_PARKING_SPOTS - USED_SPOTS}
 

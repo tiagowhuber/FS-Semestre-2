@@ -1,4 +1,4 @@
-#Tue Oct 03 17:26:06 CLST 2023
+#Tue Oct 03 20:50:50 CLST 2023
 base.0=D\:\\CLASES\\Fabrica de Software\\FS-Semestre-2\\Estacionamientos\\Frontend\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex
