@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_app/screens/admin/admin.dart';
 import 'package:frontend_app/screens/menu_estacionamientos.dart';
 import 'package:frontend_app/screens/perfil.dart';
 import 'package:frontend_app/utils/colors.dart';
@@ -30,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Stack(
         children: [
           Container(
-            height: screenHeight/4,
+            height: screenHeight / 4,
             color: amarilloUdec,
           ),
           ListView(
@@ -48,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                       fit: BoxFit.fill,
                     ),
                   ),
-                   Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Padding(
@@ -57,12 +58,13 @@ class _LoginPageState extends State<LoginPage> {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const Perfil()),
+                              MaterialPageRoute(
+                                  builder: (context) => const Perfil()),
                             );
                           },
                           child: Icon(
                             Icons.info_outline,
-                            size: screenHeight/20,
+                            size: screenHeight / 20,
                             color: Colors.white,
                           ),
                         ),
@@ -78,7 +80,8 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 color: azulUdec,
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0, right: 40.0, left: 40.0, top: 20.0),
+                  padding: const EdgeInsets.only(
+                      bottom: 10.0, right: 40.0, left: 40.0, top: 20.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -111,11 +114,14 @@ class _LoginPageState extends State<LoginPage> {
                             child: TextField(
                               controller: _emailController,
                               style: const TextStyle(
-                                color: Colors.white, // Color de la letra deseado
+                                color:
+                                    Colors.white, // Color de la letra deseado
                               ),
                               decoration: const InputDecoration(
                                 focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white), // Color de la línea de borde al estar seleccionado
+                                  borderSide: BorderSide(
+                                      color: Colors
+                                          .white), // Color de la línea de borde al estar seleccionado
                                 ),
                               ),
                             ),
@@ -141,11 +147,14 @@ class _LoginPageState extends State<LoginPage> {
                             child: TextField(
                               controller: _passwordController,
                               style: const TextStyle(
-                                color: Colors.white, // Color de la letra deseado
+                                color:
+                                    Colors.white, // Color de la letra deseado
                               ),
                               decoration: const InputDecoration(
                                 focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white), // Color de la línea de borde al estar seleccionado
+                                  borderSide: BorderSide(
+                                      color: Colors
+                                          .white), // Color de la línea de borde al estar seleccionado
                                 ),
                               ),
                               obscureText: true,
@@ -158,7 +167,8 @@ class _LoginPageState extends State<LoginPage> {
                         height: 80,
                         minWidth: 1000,
                         color: naranjaUdec, // Establecer el color de fondo
-                        textColor: Colors.white, // Establecer el color del texto
+                        textColor:
+                            Colors.white, // Establecer el color del texto
                         child: const Text(
                           'Aceptar',
                           style: TextStyle(
@@ -170,12 +180,24 @@ class _LoginPageState extends State<LoginPage> {
                           String password = _passwordController.text;
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => MenuEstacionamientos()),
+                            MaterialPageRoute(
+                                builder: (context) => MenuEstacionamientos()),
                           );
                           // Aquí puedes agregar la lógica de autenticación y redireccionar al usuario si los datos son válidos.
                           print('Email: $email\nPassword: $password');
                         },
                       ),
+                      MaterialButton(
+                          child: const Text(
+                            'Admin',
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AdminPage()),
+                            );
+                          }),
                       const SizedBox(
                         height: 50,
                       ),
