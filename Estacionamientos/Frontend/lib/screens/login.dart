@@ -188,6 +188,29 @@ class _LoginPageState extends State<LoginPage> {
                         },
                       ),
                       MaterialButton(
+                        height: 20,
+                        minWidth: null,
+                        color: azulUdec, // Establecer el color de fondo
+                        elevation: 0,
+                        textColor: Colors.white, // Establecer el color del texto
+                        child: const Text(
+                          'Registrar',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          String email = _emailController.text;
+                          String password = _passwordController.text;
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Register()),
+                          );
+                          // Aquí puedes agregar la lógica de autenticación y redireccionar al usuario si los datos son válidos.
+                          print('Email: $email\nPassword: $password');
+                        },
+                      ),
+                      MaterialButton(
                           child: const Text(
                             'Admin',
                           ),
