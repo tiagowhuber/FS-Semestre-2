@@ -28,7 +28,7 @@ img_counter=0
 
 
 
-#USED_SPOTS = count_vehicles('detectar/1ddb6186-351a-46f7-bcf3-4e6466d5b2a6.jpeg')
+USED_SPOTS = count_vehicles("detectar/1ddb6186-351a-46f7-bcf3-4e6466d5b2a6.jpeg")
 
 
 class ConnectionManager:
@@ -77,44 +77,21 @@ async def available_spaces():
     global USED_SPOTS
     global img_counter
 
-    
-    if camara1.isOpened() and camara0.isOpened():
-        camara0 = cv2.VideoCapture(0)
-        camara1 = cv2.VideoCapture(1)
+    camara = cv2.VideoCapture(0)
 
-        ret0,frame0 = camara0.read()
-        ret1,frame1 = camara1.read()
+    ret,frame = camara.read()
 
-        if ret0 and ret1 == True:
-            print("Aderntrooo")
+    if ret == True:
+        print("Aderntrooo")
 
-            cv2.imwrite('detectar/IMG'+str(img_counter)+'.jpeg',frame0)
-            cv2.imwrite('detectar/IMG'+str(img_counter + 1)+'.jpeg',frame1)
-            count=['detectar/IMG'+str(img_counter)+'.jpeg', 'detectar/IMG'+str(img_counter + 1)+'.jpeg']
-            USED_SPOTS = count_vehicles(count)
-            img_counter=img_counter+2
-            
-            print(USED_SPOTS) 
-            
-        camara0.release()
-        camara1.release()
-    else:
-        camara = cv2.VideoCapture(0)
-
-        ret,frame = camara.read()
-
-        if ret == True:
-            print("Aderntrooo")
-
-            cv2.imwrite('detectar/IMG'+str(img_counter)+'.jpeg',frame)
-            count='detectar/IMG'+str(img_counter)+'.jpeg'
-            USED_SPOTS = count_vehicles(count)
-            img_counter=img_counter+1
-            
-            print(USED_SPOTS) 
-            
-        camara.release()
+        cv2.imwrite('detectar/IMG'+str(img_counter)+'.jpeg',frame)
+        count='detectar/IMG'+str(img_counter)+'.jpeg'
+        USED_SPOTS = count_vehicles(count)
+        img_counter=img_counter+1
         
+        print(USED_SPOTS) 
+        
+    camara.release()
 
     return {"cars_parked": USED_SPOTS, "available_spaces": TOTAL_PARKING_SPOTS - USED_SPOTS}
 
