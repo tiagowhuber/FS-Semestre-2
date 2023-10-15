@@ -222,6 +222,7 @@ class _RegisterState extends State<Register> {
                           );
                           // Aquí puedes agregar la lógica de autenticación y redireccionar al usuario si los datos son válidos.
                           print('Email: $email\nPassword: $password');
+                          ParkingDatabase.instance.readAllUsers() ;
                         },
                       ),
                       const SizedBox(

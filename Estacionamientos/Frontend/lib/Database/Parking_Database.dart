@@ -181,7 +181,16 @@ class ParkingDatabase{
     Future<List<User>> readAllUsers() async{
         final db = await instance.database;
         final result = await db.query(tableUser);
-        print(result.map((json) => User.fromJson(json)).toList());
+        final userMap =result.map((json) => User.fromJson(json)).toList();
+        for (User user in userMap) {
+            print('User ID: ${user.userid}');
+            print('Name: ${user.name}');
+            print('Mail: ${user.mail}');
+            print('Password: ${user.password}');
+            print('Number: ${user.number}');
+            print('Admin: ${user.admin}');
+            print('-----------------------------');
+        }
         return result.map((json) => User.fromJson(json)).toList();
     }
     Future<List<Parking>> readAllParkings() async{
