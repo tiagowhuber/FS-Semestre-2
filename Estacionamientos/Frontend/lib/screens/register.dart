@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_app/Database/Parking_Database.dart';
+import 'package:frontend_app/screens/admin/models/parking.dart';
 import 'package:frontend_app/screens/login.dart';
-import 'package:frontend_app/screens/menu_estacionamientos.dart';
 import 'package:frontend_app/screens/perfil.dart';
-import 'package:frontend_app/screens/register.dart';
 import 'package:frontend_app/utils/colors.dart';
 
 class Register extends StatefulWidget {
@@ -13,12 +13,14 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  TextEditingController userController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   bool isChecked = false;// This variable tracks the checkbox state
 
   @override
   void dispose() {
+    userController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -100,7 +102,7 @@ class _RegisterState extends State<Register> {
                           Container(
                             height: 40,
                             child: TextField(
-                              controller: _emailController,
+                              controller: userController,
                               style: const TextStyle(
                                 color: Colors.white, // Color de la letra deseado
                               ),
@@ -161,7 +163,7 @@ class _RegisterState extends State<Register> {
                           Container(
                             height: 40,
                             child: TextField(
-                              controller: _passwordController,
+                              controller:_emailController,
                               style: const TextStyle(
                                 color: Colors.white, // Color de la letra deseado
                               ),
@@ -207,9 +209,13 @@ class _RegisterState extends State<Register> {
                             color: Colors.white,
                           ),
                         ),
-                        onPressed: () {
+                        onPressed: (){
+                          String user = userController.text;
                           String email = _emailController.text;
                           String password = _passwordController.text;
+                          var usuario = User(name: user, mail: email, password: password, number: 1, admin: false); // or admin: 0
+                          ParkingDatabase.instance.createUser(usuario);
+                          ParkingDatabase.instance.readAllUsers() ;
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => LoginPage()),
