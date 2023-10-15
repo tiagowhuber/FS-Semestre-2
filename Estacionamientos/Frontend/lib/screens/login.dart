@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend_app/screens/admin/admin.dart';
 import 'package:frontend_app/screens/menu_estacionamientos.dart';
 import 'package:frontend_app/screens/perfil.dart';
+import 'package:frontend_app/screens/register.dart';
 import 'package:frontend_app/utils/colors.dart';
 
 class LoginPage extends StatefulWidget {
