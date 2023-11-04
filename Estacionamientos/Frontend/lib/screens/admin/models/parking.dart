@@ -14,6 +14,14 @@ class UserField{
     static final String password = 'password';
     static final String number = 'number';
     static final String admin = 'admin';
+    static const String tipo = 'tipo';
+}
+
+enum Tipo {
+  comun,
+  discapacitado,
+  reserva,
+  suspendido,
 }
 class User{
     final int? userid;
@@ -22,6 +30,7 @@ class User{
     final String? password;
     final int? number;
     final bool admin;
+    final Tipo tipo;
 
     const User({
         this.userid,
@@ -30,6 +39,7 @@ class User{
         this.password,
         this.number,
         required this.admin,
+        this.tipo = Tipo.comun,
 
     });
     User copy({
@@ -39,6 +49,7 @@ class User{
         String? password,
         int? number,
         bool? admin,
+        Tipo? tipo,
     }) =>
             User(
                 userid: userid ?? this.userid,
@@ -47,6 +58,7 @@ class User{
                 password: password ?? this.password,
                 number: number ?? this.number,
                 admin: admin ?? this.admin,
+                tipo: tipo ?? this.tipo,
             );
 
     static User fromJson(Map<String, Object?> json) => User(
@@ -56,6 +68,7 @@ class User{
             password: json[UserField.password] as String?,
             number: json[UserField.number] as int?,
             admin: json[UserField.admin] == 1,
+            tipo: Tipo.values[json[UserField.tipo] as int],
     );
     Map<String, Object?> toJson()=>{
         UserField.userid: userid,
@@ -64,6 +77,7 @@ class User{
         UserField.password: password,
         UserField.number: number,
         UserField.admin: admin ? 1 : 0,   
+        UserField.tipo: tipo.index,
     };
 }
 class ParkingField{
@@ -78,7 +92,7 @@ class ParkingField{
 class Parking{
     final int? parkingid;
     final String location;
-    final bool state;
+    final String state;
     final String type;    
     
     const Parking({
@@ -90,7 +104,7 @@ class Parking{
     Parking copy({
         int? parkingid,
         String? location,
-        bool? state,
+        String? state,
         String? type,
     }) =>
             Parking(
@@ -103,13 +117,13 @@ class Parking{
     static Parking fromJson(Map<String, Object?> json) => Parking(
             parkingid: json[ParkingField.parkingid] as int?,
             location: json[ParkingField.location] as String,
-            state: json[ParkingField.state] == 1,
+            state: json[ParkingField.state] as String,
             type: json[ParkingField.type] as String,
     );
     Map<String, Object?> toJson()=>{
         ParkingField.parkingid: parkingid,
         ParkingField.location: location,
-        ParkingField.state: state ? 1 : 0,  
+        ParkingField.state: state,  
         ParkingField.type: type,
     };
 }

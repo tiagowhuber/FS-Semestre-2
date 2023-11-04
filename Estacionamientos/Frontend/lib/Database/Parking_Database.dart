@@ -24,6 +24,7 @@ class ParkingDatabase{
         final integerType = 'INTEGER NOT NULL';
         final integerTypeN = 'INTEGER';
         final boolType = 'BOOLEAN NOT NULL';
+        
         await db.execute('''
         CREATE TABLE $tableUser (
         ${UserField.userid} $idType,
@@ -31,7 +32,8 @@ class ParkingDatabase{
         ${UserField.mail} $textTypeN,
         ${UserField.password} $textType,
         ${UserField.number} $integerTypeN,
-        ${UserField.admin} $boolType
+        ${UserField.admin} $boolType,
+        ${UserField.tipo} $integerTypeN
         )
         ''');
         await db.execute('''

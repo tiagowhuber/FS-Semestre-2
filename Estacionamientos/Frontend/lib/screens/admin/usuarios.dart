@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'models/user.dart';
+import 'models/parking.dart';
+import 'package:frontend_app/Database/Parking_Database.dart';
 
 class ListaUsuarios extends StatefulWidget {
   const ListaUsuarios({Key? key}) : super(key: key);
@@ -13,12 +14,12 @@ class ListaUsuariosState extends State<ListaUsuarios> {
   @override
   void initState() {
     super.initState();
-    // Inicialización ficticia de usuarios (se remplazará con datos de la BD)
-    users = [
-      User(email: 'user1@udec.cl', tipo: Tipo.comun),
-      User(email: 'user2@udec.cl', tipo: Tipo.discapacitado),
-      User(email: 'user3@udec.cl', tipo: Tipo.reserva),
-    ];
+    users = [];
+    ParkingDatabase.instance.readAllUsers().then((userList) {
+      setState(() {
+        users = userList;
+      });
+    });
   }
 
   @override
@@ -31,7 +32,7 @@ class ListaUsuariosState extends State<ListaUsuarios> {
         child: Column(
           children: users.map((user) {
             return ListTile(
-              title: Text(user.email),
+              title: Text(user.mail ?? "no mail"),
               subtitle: Text('Tipo: ${_getTipoText(user.tipo)}'),
               trailing: IconButton(
                 icon: const Icon(Icons.edit),
@@ -71,8 +72,16 @@ class ListaUsuariosState extends State<ListaUsuarios> {
     );
 
     if (nuevoTipo != null) {
-      setState(() {
-        user.tipo = nuevoTipo;
+      User tmp = user.copy(
+        tipo: nuevoTipo,
+      );
+
+      ParkingDatabase.instance.updateUser(tmp).then((result) {
+        if (result > 0) {
+          setState(() {
+            users[users.indexOf(user)] = tmp;
+          });
+        }
       });
     }
   }

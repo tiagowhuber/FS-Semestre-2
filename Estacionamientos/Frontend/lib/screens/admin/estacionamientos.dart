@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'models/estacionamiento.dart';
+import 'models/parking.dart';
+import 'package:frontend_app/Database/Parking_Database.dart';
 
 class EstacionamientosAdmin extends StatefulWidget {
   const EstacionamientosAdmin({Key? key}) : super(key: key);
@@ -9,39 +10,31 @@ class EstacionamientosAdmin extends StatefulWidget {
 }
 
 class EstacionamientosAdminState extends State<EstacionamientosAdmin> {
-  // datos ejemplo
-  List<Estacionamiento> estacionamientos = [
-    Estacionamiento(
-      nombre: 'Estacionamiento N.º 1 Pinacoteca',
-      ubicacion: 'Lorenzo Arenas 123456',
-      disponibilidad: 'bajo',
-    ),
-    Estacionamiento(
-      nombre: 'Estacionamiento N.º 2 Pinacoteca',
-      ubicacion: 'Lorenzo Arenas 123457',
-      disponibilidad: 'lleno',
-    ),
-    Estacionamiento(
-      nombre: 'Estacionamiento Biblioteca Central',
-      ubicacion: 'Lorenzo Arenas 987654',
-      disponibilidad: 'no disponible',
-    ),
-    Estacionamiento(
-      nombre: 'Facultad de Ingenieria',
-      ubicacion: 'Lorenzo Arenas 1313',
-      disponibilidad: 'medio',
-    ),
-  ];
+  late List<Parking> estacionamientos;
+  @override
+  void initState() {
+    super.initState();
+    estacionamientos = [];
+    ParkingDatabase.instance.readAllParkings().then((estacionamientosList) {
+      setState(() {
+        estacionamientos = estacionamientosList;
+      });
+    });
+  }
 
-  void _agregarEstacionamiento(Estacionamiento estacionamiento) {
-    setState(() {
-      estacionamientos.add(estacionamiento);
+  void _agregarEstacionamiento(Parking estacionamiento) {
+    ParkingDatabase.instance
+        .createParking(estacionamiento)
+        .then((estacionamientoInsertado) {
+      setState(() {
+        estacionamientos.add(estacionamientoInsertado);
+      });
     });
   }
 
   Future<void> _mostrarDialogoAgregarEstacionamiento(
       BuildContext context) async {
-    final estacionamiento = await showDialog<Estacionamiento>(
+    final estacionamiento = await showDialog<Parking>(
       context: context,
       builder: (BuildContext context) {
         return _FormAgregarEstacionamiento();
@@ -54,19 +47,29 @@ class EstacionamientosAdminState extends State<EstacionamientosAdmin> {
   }
 
   Future<void> _mostrarDialogoEditarEstacionamiento(
-      BuildContext context, Estacionamiento estacionamiento) async {
-    final nuevoEstacionamiento = await showDialog<Estacionamiento>(
+      BuildContext context, Parking estacionamiento) async {
+    final nuevoEstacionamiento = await showDialog<Parking>(
       context: context,
       builder: (BuildContext context) {
         return _FormEditarEstacionamiento(estacionamiento: estacionamiento);
       },
     );
 
+    // si se edito el estacionamiento
     if (nuevoEstacionamiento != null) {
-      // Reemplazar el estacionamiento antiguo con el editado
-      setState(() {
-        estacionamientos[estacionamientos.indexOf(estacionamiento)] =
-            nuevoEstacionamiento;
+      // trucheria
+      // crear un parking nuevo temporal que contiene el id del parking original y los datos del parking nuevo (datos obtenidos del form)
+      // porque nuevoEstacionamiento tiene id null (se crea en el form)
+      Parking parking2 =
+          nuevoEstacionamiento.copy(parkingid: estacionamiento.parkingid);
+
+      ParkingDatabase.instance.updateParking(parking2).then((result) {
+        if (result > 0) {
+          setState(() {
+            estacionamientos[estacionamientos.indexOf(estacionamiento)] =
+                parking2;
+          });
+        }
       });
     }
   }
@@ -92,12 +95,12 @@ class EstacionamientosAdminState extends State<EstacionamientosAdmin> {
                 itemCount: estacionamientos.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(estacionamientos[index].nombre),
+                    title: Text(estacionamientos[index].location),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(estacionamientos[index].ubicacion),
-                        Text(estacionamientos[index].disponibilidad),
+                        Text(estacionamientos[index].type),
+                        Text(estacionamientos[index].state),
                       ],
                     ),
                     trailing: Row(
@@ -124,10 +127,16 @@ class EstacionamientosAdminState extends State<EstacionamientosAdmin> {
     );
   }
 
-  void _quitarEstacionamiento(int index) {
-    setState(() {
-      estacionamientos.removeAt(index);
-    });
+  void _quitarEstacionamiento(int index) async {
+    int? idAEliminar = estacionamientos[index].parkingid;
+
+    int result = await ParkingDatabase.instance.deleteParking(idAEliminar!);
+
+    if (result > 0) {
+      setState(() {
+        estacionamientos.removeAt(index);
+      });
+    }
   }
 }
 
@@ -142,8 +151,8 @@ class _FormAgregarEstacionamiento extends StatefulWidget {
 class _FormAgregarEstacionamientoState
     extends State<_FormAgregarEstacionamiento> {
   final _nombreController = TextEditingController();
-  final _ubicacionController = TextEditingController();
-  String _disponibilidad = 'Disponible';
+  final _locationController = TextEditingController();
+  String _state = 'Disponible';
 
   @override
   Widget build(BuildContext context) {
@@ -155,31 +164,31 @@ class _FormAgregarEstacionamientoState
           children: [
             TextField(
               controller: _nombreController,
-              decoration: const InputDecoration(labelText: 'Nombre'),
+              decoration: const InputDecoration(labelText: 'Ubicación'),
             ),
             TextField(
-              controller: _ubicacionController,
-              decoration: const InputDecoration(labelText: 'Ubicación'),
+              controller: _locationController,
+              decoration: const InputDecoration(labelText: 'Tipo'),
             ),
             const SizedBox(height: 10.0),
             Row(
               children: [
                 Radio(
                   value: 'Disponible',
-                  groupValue: _disponibilidad,
+                  groupValue: _state,
                   onChanged: (value) {
                     setState(() {
-                      _disponibilidad = value.toString();
+                      _state = value.toString();
                     });
                   },
                 ),
                 const Text('Disponible'),
                 Radio(
                   value: 'No Disponible',
-                  groupValue: _disponibilidad,
+                  groupValue: _state,
                   onChanged: (value) {
                     setState(() {
-                      _disponibilidad = value.toString();
+                      _state = value.toString();
                     });
                   },
                 ),
@@ -192,10 +201,10 @@ class _FormAgregarEstacionamientoState
       actions: <Widget>[
         TextButton(
           onPressed: () {
-            final estacionamiento = Estacionamiento(
-              nombre: _nombreController.text,
-              ubicacion: _ubicacionController.text,
-              disponibilidad: _disponibilidad,
+            final estacionamiento = Parking(
+              location: _nombreController.text,
+              type: _locationController.text,
+              state: _state,
             );
             Navigator.of(context).pop(estacionamiento);
           },
@@ -215,7 +224,7 @@ class _FormAgregarEstacionamientoState
 // --------------------- FORM EDITAR ESTACIONAMIENTO ---------------------
 
 class _FormEditarEstacionamiento extends StatefulWidget {
-  final Estacionamiento estacionamiento;
+  final Parking estacionamiento;
 
   const _FormEditarEstacionamiento({required this.estacionamiento});
 
@@ -227,18 +236,18 @@ class _FormEditarEstacionamiento extends StatefulWidget {
 class _FormEditarEstacionamientoState
     extends State<_FormEditarEstacionamiento> {
   late TextEditingController _nombreController;
-  late TextEditingController _ubicacionController;
-  late TextEditingController _disponibilidadController;
+  late TextEditingController _locationController;
+  late TextEditingController _stateController;
 
   @override
   void initState() {
     super.initState();
     _nombreController =
-        TextEditingController(text: widget.estacionamiento.nombre);
-    _ubicacionController =
-        TextEditingController(text: widget.estacionamiento.ubicacion);
-    _disponibilidadController =
-        TextEditingController(text: widget.estacionamiento.disponibilidad);
+        TextEditingController(text: widget.estacionamiento.location);
+    _locationController =
+        TextEditingController(text: widget.estacionamiento.type);
+    _stateController =
+        TextEditingController(text: widget.estacionamiento.state);
   }
 
   @override
@@ -251,14 +260,14 @@ class _FormEditarEstacionamientoState
           children: [
             TextField(
               controller: _nombreController,
-              decoration: const InputDecoration(labelText: 'Nombre'),
-            ),
-            TextField(
-              controller: _ubicacionController,
               decoration: const InputDecoration(labelText: 'Ubicación'),
             ),
             TextField(
-              controller: _disponibilidadController,
+              controller: _locationController,
+              decoration: const InputDecoration(labelText: 'Tipo'),
+            ),
+            TextField(
+              controller: _stateController,
               decoration: const InputDecoration(labelText: 'Disponibilidad'),
             ),
           ],
@@ -267,10 +276,10 @@ class _FormEditarEstacionamientoState
       actions: <Widget>[
         TextButton(
           onPressed: () {
-            final nuevoEstacionamiento = Estacionamiento(
-              nombre: _nombreController.text,
-              ubicacion: _ubicacionController.text,
-              disponibilidad: _disponibilidadController.text,
+            final nuevoEstacionamiento = Parking(
+              location: _nombreController.text,
+              type: _locationController.text,
+              state: _stateController.text,
             );
             Navigator.of(context).pop(nuevoEstacionamiento);
           },
