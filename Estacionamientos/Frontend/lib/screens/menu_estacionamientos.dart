@@ -3,31 +3,40 @@ import 'package:frontend_app/screens/static/card_estacionamiento.dart';
 import 'package:frontend_app/utils/colors.dart';
 
 class MenuEstacionamientos extends StatefulWidget {
-  const MenuEstacionamientos({super.key});
+  final bool isHandicapped;
+
+  const MenuEstacionamientos({Key? key, required this.isHandicapped}): super(key: key);
 
   @override
   State<MenuEstacionamientos> createState() => _MenuEstacionamientosState();
 }
 
 class _MenuEstacionamientosState extends State<MenuEstacionamientos> {
-  final List<CardEstacion> cards = [
-    CardEstacion(nombre:'Estacionamiento N.º 1 Pinacoteca',ubicacion:'Lorenzo Arenas 123456',disponibilidad:'bajo',favorito: true),
-    CardEstacion(nombre:'Estacionamiento N.º 2 Pinacoteca',ubicacion:'Lorenzo Arenas 123457',disponibilidad:'lleno',favorito: false),
-    CardEstacion(nombre:'Estacionamiento Biblioteca Central',ubicacion:'Lorenzo Arenas 987654',disponibilidad:'no disponible',favorito: true),
-    CardEstacion(nombre:'Facultad de Ingenieria',ubicacion:'Lorenzo Arenas 1313',disponibilidad:'medio',favorito: false),
-    CardEstacion(nombre:'Estacionamiento N.º 1 Pinacoteca',ubicacion:'Lorenzo Arenas 123456',disponibilidad:'bajo',favorito: true),
-    CardEstacion(nombre:'Estacionamiento N.º 2 Pinacoteca',ubicacion:'Lorenzo Arenas 123457',disponibilidad:'lleno',favorito: false),
-    CardEstacion(nombre:'Estacionamiento Biblioteca Central',ubicacion:'Lorenzo Arenas 987654',disponibilidad:'no disponible',favorito: true),
-    CardEstacion(nombre:'Facultad de Ingenieria',ubicacion:'Lorenzo Arenas 1313',disponibilidad:'medio',favorito: false),
-    CardEstacion(nombre:'Estacionamiento N.º 1 Pinacoteca',ubicacion:'Lorenzo Arenas 123456',disponibilidad:'bajo',favorito: true),
-    CardEstacion(nombre:'Estacionamiento N.º 2 Pinacoteca',ubicacion:'Lorenzo Arenas 123457',disponibilidad:'lleno',favorito: false),
-    CardEstacion(nombre:'Estacionamiento Biblioteca Central',ubicacion:'Lorenzo Arenas 987654',disponibilidad:'no disponible',favorito: true),
-    CardEstacion(nombre:'Facultad de Ingenieria',ubicacion:'Lorenzo Arenas 1313',disponibilidad:'medio',favorito: false),
-    CardEstacion(nombre:'Estacionamiento N.º 1 Pinacoteca',ubicacion:'Lorenzo Arenas 123456',disponibilidad:'bajo',favorito: true),
-    CardEstacion(nombre:'Estacionamiento N.º 2 Pinacoteca',ubicacion:'Lorenzo Arenas 123457',disponibilidad:'lleno',favorito: false),
-    CardEstacion(nombre:'Estacionamiento Biblioteca Central',ubicacion:'Lorenzo Arenas 987654',disponibilidad:'no disponible',favorito: true),
-    CardEstacion(nombre:'Facultad de Ingenieria',ubicacion:'Lorenzo Arenas 1313',disponibilidad:'medio',favorito: false),
-  ];
+  late List<CardEstacion> cards;
+
+  void initState() {
+    super.initState();
+    cards = [
+      if(widget.isHandicapped) CardEstacion(nombre:'Handicap',ubicacion:'Lorenzo Arenas 1313',disponibilidad:'medio',favorito: false, isHandicapped: widget.isHandicapped),
+      CardEstacion(nombre:'Estacionamiento N.º 1 Pinacoteca',ubicacion:'Lorenzo Arenas 123456',disponibilidad:'bajo',favorito: true),
+      CardEstacion(nombre:'Estacionamiento N.º 2 Pinacoteca',ubicacion:'Lorenzo Arenas 123457',disponibilidad:'lleno',favorito: false),
+      CardEstacion(nombre:'Estacionamiento Biblioteca Central',ubicacion:'Lorenzo Arenas 987654',disponibilidad:'no disponible',favorito: true),
+      CardEstacion(nombre:'Facultad de Ingenieria',ubicacion:'Lorenzo Arenas 1313',disponibilidad:'medio',favorito: false),
+      CardEstacion(nombre:'Estacionamiento N.º 1 Pinacoteca',ubicacion:'Lorenzo Arenas 123456',disponibilidad:'bajo',favorito: true),
+      CardEstacion(nombre:'Estacionamiento N.º 2 Pinacoteca',ubicacion:'Lorenzo Arenas 123457',disponibilidad:'lleno',favorito: false),
+      CardEstacion(nombre:'Estacionamiento Biblioteca Central',ubicacion:'Lorenzo Arenas 987654',disponibilidad:'no disponible',favorito: true),
+      CardEstacion(nombre:'Facultad de Ingenieria',ubicacion:'Lorenzo Arenas 1313',disponibilidad:'medio',favorito: false),
+      CardEstacion(nombre:'Estacionamiento N.º 1 Pinacoteca',ubicacion:'Lorenzo Arenas 123456',disponibilidad:'bajo',favorito: true),
+      CardEstacion(nombre:'Estacionamiento N.º 2 Pinacoteca',ubicacion:'Lorenzo Arenas 123457',disponibilidad:'lleno',favorito: false),
+      CardEstacion(nombre:'Estacionamiento Biblioteca Central',ubicacion:'Lorenzo Arenas 987654',disponibilidad:'no disponible',favorito: true),
+      CardEstacion(nombre:'Facultad de Ingenieria',ubicacion:'Lorenzo Arenas 1313',disponibilidad:'medio',favorito: false),
+      CardEstacion(nombre:'Estacionamiento N.º 1 Pinacoteca',ubicacion:'Lorenzo Arenas 123456',disponibilidad:'bajo',favorito: true),
+      CardEstacion(nombre:'Estacionamiento N.º 2 Pinacoteca',ubicacion:'Lorenzo Arenas 123457',disponibilidad:'lleno',favorito: false),
+      CardEstacion(nombre:'Estacionamiento Biblioteca Central',ubicacion:'Lorenzo Arenas 987654',disponibilidad:'no disponible',favorito: true),
+      CardEstacion(nombre:'Estacionamiento N.º 1 Pinacoteca',ubicacion:'Lorenzo Arenas 1313',disponibilidad:'medio',favorito: false)
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;

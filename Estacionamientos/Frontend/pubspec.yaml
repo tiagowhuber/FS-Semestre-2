@@ -30,6 +30,7 @@ flutter:
     - assets/images/login_image.png
     - assets/images/
     - assets/icons/
+    - assets/images/handicapped.jpg
 
 flutter_native_splash:
   # image: "assets/icons/logoinicio.png"

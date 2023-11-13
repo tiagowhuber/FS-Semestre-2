@@ -10,12 +10,14 @@ class CardEstacion extends StatelessWidget {
   final Color backgroundColor;
   final TextStyle titleStyle;
   final TextStyle descriptionStyle;
+  final bool? isHandicapped ;
 
   CardEstacion({
     required this.nombre,
     required this.ubicacion,
     required this.disponibilidad,
     required this.favorito,
+    this.isHandicapped,
     this.backgroundColor = Colors.white,
     this.titleStyle = const TextStyle(
       fontWeight: FontWeight.normal,
@@ -71,7 +73,7 @@ class CardEstacion extends StatelessWidget {
                           topRight: Radius.circular(25),
                         ),
                         child: Image.asset(
-                          getImagenByDisponibilidad(disponibilidad),
+                          (isHandicapped ?? false) ? 'assets/images/handicapped.jpg' : getImagenByDisponibilidad(disponibilidad),
                           fit: BoxFit.cover,
                           ),
                       ),

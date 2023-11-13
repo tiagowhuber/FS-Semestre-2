@@ -182,7 +182,7 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MenuEstacionamientos()),
+                                builder: (context) => MenuEstacionamientos(isHandicapped: true)),
                           );
                           // Aquí puedes agregar la lógica de autenticación y redireccionar al usuario si los datos son válidos.
                           print('Email: $email\nPassword: $password');
