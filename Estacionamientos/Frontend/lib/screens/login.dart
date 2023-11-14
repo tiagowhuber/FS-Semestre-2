@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_app/screens/admin/admin.dart';
+import 'package:frontend_app/Database/Parking_Database.dart';
 import 'package:frontend_app/screens/menu_estacionamientos.dart';
 import 'package:frontend_app/screens/perfil.dart';
 import 'package:frontend_app/screens/register.dart';
@@ -176,16 +177,44 @@ class _LoginPageState extends State<LoginPage> {
                             color: Colors.white,
                           ),
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           String email = _emailController.text;
                           String password = _passwordController.text;
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MenuEstacionamientos(isHandicapped: true)),
-                          );
-                          // Aquí puedes agregar la lógica de autenticación y redireccionar al usuario si los datos son válidos.
-                          print('Email: $email\nPassword: $password');
+
+                          // Attempt to read the user from the database
+                          bool user = await ParkingDatabase.instance
+                              .readUserByEmailAndPassword(email, password);
+                          // Check if the user is found
+                          if (user == true) {
+                            // User found, proceed to MenuEstacionamientos
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MenuEstacionamientos(
+                                      isHandicapped: true)),
+                            );
+                          } else {
+                            // User not found, show an error dialog
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Error'),
+                                  content: Text(
+                                    'Usuario no encontrado. Por favor revisa tu correo electrónico y contraseña.',
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
                         },
                       ),
                       MaterialButton(
@@ -193,7 +222,8 @@ class _LoginPageState extends State<LoginPage> {
                         minWidth: null,
                         color: azulUdec, // Establecer el color de fondo
                         elevation: 0,
-                        textColor: Colors.white, // Establecer el color del texto
+                        textColor:
+                            Colors.white, // Establecer el color del texto
                         child: const Text(
                           'Registrar',
                           style: TextStyle(
