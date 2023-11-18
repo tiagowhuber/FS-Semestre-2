@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_app/utils/colors.dart';
 import 'models/camara.dart';
 
 class Camaras extends StatefulWidget {
@@ -32,7 +33,9 @@ class CamarasState extends State<Camaras> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cámaras'),
+        backgroundColor: naranjaUdec,
+        title: const Text('Cámaras', style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -42,14 +45,24 @@ class CamarasState extends State<Camaras> {
           ),
         ],
       ),
+      backgroundColor: azulUdec,
       body: ListView.builder(
         itemCount: camaras.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(camaras[index].nombre),
-            subtitle: Text(camaras[index].ubicacion),
+            title: Text(
+              camaras[index].nombre,
+              style: const TextStyle(color: Colors.white),
+            ),
+            subtitle: Text(
+              camaras[index].ubicacion,
+              style: const TextStyle(color: Colors.white),
+            ),
             trailing: IconButton(
-              icon: const Icon(Icons.delete),
+              icon: const Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
               onPressed: () {
                 _eliminarCamara(index);
               },
@@ -68,7 +81,11 @@ class CamarasState extends State<Camaras> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Agregar Cámara'),
+          backgroundColor: azulUdec,
+          title: const Text(
+            'Agregar Cámara',
+            style: TextStyle(color: Colors.white),
+          ),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -77,16 +94,20 @@ class CamarasState extends State<Camaras> {
                   onChanged: (value) {
                     nombre = value;
                   },
+                  style: const TextStyle(color: Colors.white),
                   decoration: const InputDecoration(
                     labelText: 'Nombre',
+                    labelStyle: TextStyle(color: Colors.white),
                   ),
                 ),
                 TextField(
                   onChanged: (value) {
                     ubicacion = value;
                   },
+                  style: const TextStyle(color: Colors.white),
                   decoration: const InputDecoration(
                     labelText: 'Ubicación',
+                    labelStyle: TextStyle(color: Colors.white),
                   ),
                 ),
               ],
@@ -100,13 +121,19 @@ class CamarasState extends State<Camaras> {
                 });
                 Navigator.pop(context);
               },
-              child: const Text('Agregar'),
+              child: const Text(
+                'Agregar',
+                style: TextStyle(color: naranjaUdec),
+              ),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Cancelar'),
+              child: const Text(
+                'Cancelar',
+                style: TextStyle(color: naranjaUdec),
+              ),
             ),
           ],
         );

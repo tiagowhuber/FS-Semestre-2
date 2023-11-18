@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_app/utils/colors.dart';
 import 'models/parking.dart';
 import 'package:frontend_app/Database/Parking_Database.dart';
 
@@ -26,16 +27,28 @@ class ListaUsuariosState extends State<ListaUsuarios> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Usuarios'),
+        backgroundColor: naranjaUdec,
+        title: const Text('Usuarios', style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
+      backgroundColor: azulUdec,
       body: SingleChildScrollView(
         child: Column(
           children: users.map((user) {
             return ListTile(
-              title: Text(user.mail ?? "no mail"),
-              subtitle: Text('Tipo: ${_getTipoText(user.tipo)}'),
+              title: Text(
+                user.mail,
+                style: const TextStyle(color: Colors.white),
+              ),
+              subtitle: Text(
+                'Tipo: ${_getTipoText(user.tipo)}',
+                style: const TextStyle(color: Colors.white),
+              ),
               trailing: IconButton(
-                icon: const Icon(Icons.edit),
+                icon: const Icon(
+                  Icons.edit,
+                  color: Colors.white,
+                ),
                 onPressed: () {
                   _mostrarDialogoEditarTipoUsuario(context, user);
                 },
@@ -113,13 +126,20 @@ class _FormEditarTipoUsuarioState extends State<_FormEditarTipoUsuario> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Editar tipo de usuario'),
+      backgroundColor: azulUdec,
+      title: const Text(
+        'Editar tipo de usuario',
+        style: TextStyle(color: Colors.white),
+      ),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             RadioListTile<Tipo>(
-              title: const Text('Común'),
+              title: const Text(
+                'Común',
+                style: TextStyle(color: Colors.white),
+              ),
               value: Tipo.comun,
               groupValue: _nuevoTipo,
               onChanged: (value) {
@@ -127,9 +147,13 @@ class _FormEditarTipoUsuarioState extends State<_FormEditarTipoUsuario> {
                   _nuevoTipo = value!;
                 });
               },
+              activeColor: naranjaUdec,
             ),
             RadioListTile<Tipo>(
-              title: const Text('Discapacitado'),
+              title: const Text(
+                'Discapacitado',
+                style: TextStyle(color: Colors.white),
+              ),
               value: Tipo.discapacitado,
               groupValue: _nuevoTipo,
               onChanged: (value) {
@@ -137,9 +161,13 @@ class _FormEditarTipoUsuarioState extends State<_FormEditarTipoUsuario> {
                   _nuevoTipo = value!;
                 });
               },
+              activeColor: naranjaUdec,
             ),
             RadioListTile<Tipo>(
-              title: const Text('Reserva'),
+              title: const Text(
+                'Reserva',
+                style: TextStyle(color: Colors.white),
+              ),
               value: Tipo.reserva,
               groupValue: _nuevoTipo,
               onChanged: (value) {
@@ -147,9 +175,13 @@ class _FormEditarTipoUsuarioState extends State<_FormEditarTipoUsuario> {
                   _nuevoTipo = value!;
                 });
               },
+              activeColor: naranjaUdec,
             ),
             RadioListTile<Tipo>(
-              title: const Text('Suspendido'),
+              title: const Text(
+                'Suspendido',
+                style: TextStyle(color: Colors.white),
+              ),
               value: Tipo.suspendido,
               groupValue: _nuevoTipo,
               onChanged: (value) {
@@ -157,6 +189,7 @@ class _FormEditarTipoUsuarioState extends State<_FormEditarTipoUsuario> {
                   _nuevoTipo = value!;
                 });
               },
+              activeColor: naranjaUdec,
             ),
           ],
         ),
@@ -166,13 +199,19 @@ class _FormEditarTipoUsuarioState extends State<_FormEditarTipoUsuario> {
           onPressed: () {
             Navigator.of(context).pop(_nuevoTipo);
           },
-          child: const Text('Guardar'),
+          child: const Text(
+            'Guardar',
+            style: TextStyle(color: naranjaUdec),
+          ),
         ),
         TextButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: const Text('Cancelar'),
+          child: const Text(
+            'Cancelar',
+            style: TextStyle(color: naranjaUdec),
+          ),
         ),
       ],
     );

@@ -213,7 +213,7 @@ class _RegisterState extends State<Register> {
                           String user = userController.text;
                           String email = _emailController.text;
                           String password = _passwordController.text;
-                          var usuario = User(name: user, mail: email, password: password, number: 1, admin: false); // or admin: 0
+                          var usuario = User(name: user, mail: email, password: password, number: 1); // or admin: 0
                           ParkingDatabase.instance.createUser(usuario);
                           ParkingDatabase.instance.readAllUsers() ;
                           Navigator.push(

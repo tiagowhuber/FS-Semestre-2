@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_app/utils/colors.dart';
 import 'models/parking.dart';
 import 'package:frontend_app/Database/Parking_Database.dart';
 
@@ -78,8 +79,12 @@ class EstacionamientosAdminState extends State<EstacionamientosAdmin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Estacionamientos'),
+        backgroundColor: naranjaUdec,
+        title: const Text('Estacionamientos',
+            style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
+      backgroundColor: azulUdec,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -87,7 +92,14 @@ class EstacionamientosAdminState extends State<EstacionamientosAdmin> {
             children: [
               ElevatedButton(
                 onPressed: () => _mostrarDialogoAgregarEstacionamiento(context),
-                child: const Text('Agregar Estacionamiento'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                      naranjaUdec, // Cambia el color de fondo a naranja
+                ),
+                child: const Text(
+                  'Agregar Estacionamiento',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
               const SizedBox(height: 10.0),
               ListView.builder(
@@ -95,24 +107,35 @@ class EstacionamientosAdminState extends State<EstacionamientosAdmin> {
                 itemCount: estacionamientos.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(estacionamientos[index].location),
+                    title: Text(
+                      estacionamientos[index].location,
+                      style: const TextStyle(color: Colors.white),
+                    ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(estacionamientos[index].type),
-                        Text(estacionamientos[index].state),
+                        Text(estacionamientos[index].type,
+                            style: const TextStyle(color: Colors.white)),
+                        Text(estacionamientos[index].state,
+                            style: const TextStyle(color: Colors.white)),
                       ],
                     ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.edit),
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.white,
+                          ),
                           onPressed: () => _mostrarDialogoEditarEstacionamiento(
                               context, estacionamientos[index]),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.remove),
+                          icon: const Icon(
+                            Icons.remove,
+                            color: Colors.white,
+                          ),
                           onPressed: () => _quitarEstacionamiento(index),
                         ),
                       ],
@@ -157,18 +180,30 @@ class _FormAgregarEstacionamientoState
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Agregar Estacionamiento'),
+      title: const Text(
+        'Agregar Estacionamiento',
+        style: TextStyle(color: Colors.white),
+      ),
+      backgroundColor: azulUdec,
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: _nombreController,
-              decoration: const InputDecoration(labelText: 'Ubicación'),
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                labelText: 'Ubicación',
+                labelStyle: TextStyle(color: Colors.white),
+              ),
             ),
             TextField(
               controller: _locationController,
-              decoration: const InputDecoration(labelText: 'Tipo'),
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                labelText: 'Tipo',
+                labelStyle: TextStyle(color: Colors.white),
+              ),
             ),
             const SizedBox(height: 10.0),
             Row(
@@ -181,8 +216,12 @@ class _FormAgregarEstacionamientoState
                       _state = value.toString();
                     });
                   },
+                  activeColor: naranjaUdec,
                 ),
-                const Text('Disponible'),
+                const Text(
+                  'Disponible',
+                  style: TextStyle(color: Colors.white),
+                ),
                 Radio(
                   value: 'No Disponible',
                   groupValue: _state,
@@ -191,8 +230,12 @@ class _FormAgregarEstacionamientoState
                       _state = value.toString();
                     });
                   },
+                  activeColor: naranjaUdec,
                 ),
-                const Text('No Disponible'),
+                const Text(
+                  'No Disponible',
+                  style: TextStyle(color: Colors.white),
+                ),
               ],
             ),
           ],
@@ -208,13 +251,19 @@ class _FormAgregarEstacionamientoState
             );
             Navigator.of(context).pop(estacionamiento);
           },
-          child: const Text('Agregar'),
+          child: const Text(
+            'Agregar',
+            style: TextStyle(color: naranjaUdec),
+          ),
         ),
         TextButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: const Text('Cancelar'),
+          child: const Text(
+            'Cancelar',
+            style: TextStyle(color: naranjaUdec),
+          ),
         ),
       ],
     );
@@ -253,22 +302,38 @@ class _FormEditarEstacionamientoState
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Editar Estacionamiento'),
+      title: const Text(
+        'Editar Estacionamiento',
+        style: TextStyle(color: Colors.white),
+      ),
+      backgroundColor: azulUdec,
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
+              style: const TextStyle(color: Colors.white),
               controller: _nombreController,
-              decoration: const InputDecoration(labelText: 'Ubicación'),
+              decoration: const InputDecoration(
+                labelText: 'Ubicación',
+                labelStyle: TextStyle(color: Colors.white),
+              ),
             ),
             TextField(
+              style: const TextStyle(color: Colors.white),
               controller: _locationController,
-              decoration: const InputDecoration(labelText: 'Tipo'),
+              decoration: const InputDecoration(
+                labelText: 'Tipo',
+                labelStyle: TextStyle(color: Colors.white),
+              ),
             ),
             TextField(
+              style: const TextStyle(color: Colors.white),
               controller: _stateController,
-              decoration: const InputDecoration(labelText: 'Disponibilidad'),
+              decoration: const InputDecoration(
+                labelText: 'Disponibilidad',
+                labelStyle: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),
@@ -283,13 +348,19 @@ class _FormEditarEstacionamientoState
             );
             Navigator.of(context).pop(nuevoEstacionamiento);
           },
-          child: const Text('Guardar'),
+          child: const Text(
+            'Guardar',
+            style: TextStyle(color: naranjaUdec),
+          ),
         ),
         TextButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: const Text('Cancelar'),
+          child: const Text(
+            'Cancelar',
+            style: TextStyle(color: naranjaUdec),
+          ),
         ),
       ],
     );

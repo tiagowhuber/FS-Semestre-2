@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend_app/screens/admin/camaras.dart';
 import 'package:frontend_app/screens/admin/estacionamientos.dart';
 import 'package:frontend_app/screens/admin/usuarios.dart';
+import 'package:frontend_app/utils/colors.dart';
 
 class AdminPage extends StatelessWidget {
   const AdminPage({Key? key}) : super(key: key);
@@ -10,8 +11,14 @@ class AdminPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('nombreUsuario - ADMINISTRADOR'),
+        backgroundColor: naranjaUdec,
+        title: const Text(
+          'nombreUsuario - ADMINISTRADOR',
+          style: TextStyle(color: Colors.white),
+        ),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
+      backgroundColor: azulUdec,
       body: Center(
         child: ListView(
           shrinkWrap: true,
@@ -60,7 +67,7 @@ class AdminPage extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             gradient: const LinearGradient(
-              colors: [Colors.orange, Colors.deepOrangeAccent],
+              colors: [naranjaUdec, Colors.deepOrangeAccent],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),
