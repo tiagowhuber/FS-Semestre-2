@@ -32,7 +32,6 @@ class ParkingDatabase{
         ${UserField.mail} $textTypeN,
         ${UserField.password} $textType,
         ${UserField.number} $integerTypeN,
-        ${UserField.admin} $boolType,
         ${UserField.tipo} $integerTypeN
         )
         ''');
@@ -70,6 +69,12 @@ class ParkingDatabase{
         PRIMARY KEY(${ReserveField.parkingid})
         )
         ''');
+        await db.execute('''
+        CREATE TABLE $tableAdmin (
+        ${AdminField.userid} $idrefType,
+        FOREIGN KEY(${AdminField.userid}) REFERENCES $tableUser(${UserField.userid})
+        )
+        ''');
     }
     Future<User> createUser(User user) async{
         final db = await instance.database;
@@ -95,6 +100,11 @@ class ParkingDatabase{
         final db = await instance.database;
         final id = await db.insert(tableParked, p.toJson());
         return p.copy(parkingid: id);
+    }
+    Future<Admin> createAdmin(Admin p) async{ 
+        final db = await instance.database;
+        final id = await db.insert(tableAdmin, p.toJson());
+        return p.copy(userid: id);
     }
     Future<User> readUser(int userid) async{
         final db = await instance.database;
@@ -180,6 +190,20 @@ class ParkingDatabase{
             throw Exception('ID $parkingid not found');
         }
     }
+    Future<bool> checkAdmin(int userid) async{
+        final db = await instance.database;
+        final maps = await db.query(
+            tableAdmin,
+            columns: AdminField.values,
+            where: '${AdminField.userid} = ?',
+            whereArgs: [userid],
+        );
+        if(maps.isNotEmpty){
+            return true;
+        }else{
+            throw Exception('ID $userid not found');
+        }
+    }
     Future<List<User>> readAllUsers() async{
         final db = await instance.database;
         final result = await db.query(tableUser);
@@ -190,7 +214,6 @@ class ParkingDatabase{
             print('Mail: ${user.mail}');
             print('Password: ${user.password}');
             print('Number: ${user.number}');
-            print('Admin: ${user.admin}');
             print('-----------------------------');
         }
         return result.map((json) => User.fromJson(json)).toList();
@@ -214,6 +237,11 @@ class ParkingDatabase{
         final db = await instance.database;
         final result = await db.query(tableParked);
         return result.map((json) => Parked.fromJson(json)).toList();
+    }
+    Future<List<Admin>> readAllAdmins() async{
+        final db = await instance.database;
+        final result = await db.query(tableAdmin);
+        return result.map((json) => Admin.fromJson(json)).toList();
     }
     Future<int> updateUser(User user) async{
         final db = await instance.database;
@@ -285,7 +313,7 @@ class ParkingDatabase{
             whereArgs: [id],
         );
     }
-    Future<int> delete(int id) async{
+    Future<int> deleteDisability(int id) async{
         final db = await instance.database;
         return await db.delete(
             tableDisability,
@@ -317,8 +345,35 @@ class ParkingDatabase{
             whereArgs: [id],
         );
     }
+    Future<int> deleteAdmin(int id) async{
+        final db = await instance.database;
+        return await db.delete(
+            tableAdmin,
+            where: '${AdminField.userid} = ?',
+            whereArgs: [id],
+        );
+    }
     Future close() async{
         final db = await instance.database;
         db.close();
     }
+    Future<bool> readUserByEmailAndPassword(String email, String password) async {
+      final db = await instance.database;
+      final maps = await db.query(
+        tableUser,
+        columns: UserField.values,
+        where: '${UserField.mail} = ? AND ${UserField.password} = ?',
+        whereArgs: [email, password],
+      );
+      print("-----------------------------------asdasdasdas");
+      print(email);
+      print(password);
+      print(maps);
+      if (maps.isNotEmpty) {
+        return true;
+      } else {
+        return false;
+      }
+   }
 }
+

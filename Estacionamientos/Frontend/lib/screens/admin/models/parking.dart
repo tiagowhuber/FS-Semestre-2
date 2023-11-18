@@ -1,23 +1,25 @@
+// ignore_for_file: prefer_const_declarations
+
 final String tableUser = 'User';
 final String tableParking = 'Parking';
 final String tableDisability = 'Disability';
 final String tableReserve = 'Reserve';
 final String tableParked = 'Parked';
+final String tableAdmin = 'Admin';
 
 class UserField{
     static final List<String> values = [
-        userid, name, mail, password, number, admin
+        userid, name, mail, password, number, tipo
     ];
     static final String userid = '_userid';
     static final String name = 'name';
     static final String mail = 'mail';
     static final String password = 'password';
     static final String number = 'number';
-    static final String admin = 'admin';
     static const String tipo = 'tipo';
 }
 
-enum Tipo {
+enum Tipo { 
   comun,
   discapacitado,
   reserva,
@@ -25,20 +27,18 @@ enum Tipo {
 }
 class User{
     final int? userid;
-    final String? name;
-    final String? mail;
-    final String? password;
-    final int? number;
-    final bool admin;
+    final String name;
+    final String mail;
+    final String password;
+    final int number;
     final Tipo tipo;
 
     const User({
         this.userid,
-        this.name,
-        this.mail,
-        this.password,
-        this.number,
-        required this.admin,
+        required this.name,
+        required this.mail,
+        required this.password,
+        required this.number,
         this.tipo = Tipo.comun,
 
     });
@@ -48,7 +48,6 @@ class User{
         String? mail,
         String? password,
         int? number,
-        bool? admin,
         Tipo? tipo,
     }) =>
             User(
@@ -57,17 +56,15 @@ class User{
                 mail: mail ?? this.mail,
                 password: password ?? this.password,
                 number: number ?? this.number,
-                admin: admin ?? this.admin,
                 tipo: tipo ?? this.tipo,
             );
 
     static User fromJson(Map<String, Object?> json) => User(
             userid: json[UserField.userid] as int?,
-            name: json[UserField.name] as String?,
-            mail: json[UserField.mail] as String?,
-            password: json[UserField.password] as String?,
-            number: json[UserField.number] as int?,
-            admin: json[UserField.admin] == 1,
+            name: json[UserField.name] as String,
+            mail: json[UserField.mail] as String,
+            password: json[UserField.password] as String,
+            number: json[UserField.number] as int,
             tipo: Tipo.values[json[UserField.tipo] as int],
     );
     Map<String, Object?> toJson()=>{
@@ -75,8 +72,7 @@ class User{
         UserField.name: name,
         UserField.mail: mail,
         UserField.password: password,
-        UserField.number: number,
-        UserField.admin: admin ? 1 : 0,   
+        UserField.number: number,  
         UserField.tipo: tipo.index,
     };
 }
@@ -232,5 +228,30 @@ class Parked{
     Map<String, Object?> toJson()=>{
         ParkedField.userid: userid,
         ParkedField.parkingid: parkingid,
+    };
+}
+class AdminField{    
+  static final List<String> values = [
+        userid
+    ];
+    static final String userid = '_userid';
+}
+class Admin{
+    final int? userid;
+    const Admin({
+        this.userid,
+    });
+    Admin copy({
+        int? userid,
+    }) =>
+            Admin(
+                userid: userid ?? this.userid,
+            );
+
+    static Admin fromJson(Map<String, Object?> json) => Admin(
+            userid: json[AdminField.userid] as int?,
+    );
+    Map<String, Object?> toJson()=>{
+        AdminField.userid: userid,
     };
 }
