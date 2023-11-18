@@ -5,16 +5,17 @@ import 'package:frontend_app/screens/admin/usuarios.dart';
 import 'package:frontend_app/utils/colors.dart';
 
 class AdminPage extends StatelessWidget {
-  const AdminPage({Key? key}) : super(key: key);
+  final String userName;
+  const AdminPage({Key? key, required this.userName}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: naranjaUdec,
-        title: const Text(
-          'nombreUsuario - ADMINISTRADOR',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          '$userName - ADMINISTRADOR',
+          style: const TextStyle(color: Colors.white),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
       ),

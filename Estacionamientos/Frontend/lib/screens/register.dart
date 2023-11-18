@@ -209,7 +209,7 @@ class _RegisterState extends State<Register> {
                             color: Colors.white,
                           ),
                         ),
-                        onPressed: (){
+                        onPressed: () async {
                           String user = userController.text;
                           String email = _emailController.text;
                           String password = _passwordController.text;
@@ -220,9 +220,15 @@ class _RegisterState extends State<Register> {
                             context,
                             MaterialPageRoute(builder: (context) => LoginPage()),
                           );
-                          // Aquí puedes agregar la lógica de autenticación y redireccionar al usuario si los datos son válidos.
                           print('Email: $email\nPassword: $password');
                           ParkingDatabase.instance.readAllUsers() ;
+                          // SOLO PARA TESTEO DE LA PAGINA ADMIN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                          // BORRAR ESTO EN LA ENTREGA
+                          // el primer usuario registrado (con id=1) va ser admin
+                          if (!await ParkingDatabase.instance.checkAdmin(1)) {
+                            Admin p = const Admin(userid: 1);
+                            await ParkingDatabase.instance.createAdmin(p);
+                          }
                         },
                       ),
                       const SizedBox(

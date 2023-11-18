@@ -204,7 +204,7 @@ class ParkingDatabase {
         if(maps.isNotEmpty){
             return true;
         }else{
-            throw Exception('ID $userid not found');
+            return false;
         }
     }
     Future<List<User>> readAllUsers() async{
@@ -378,5 +378,20 @@ class ParkingDatabase {
         return false;
       }
    }
+
+   Future<int?> getUserID(String email, String password) async {
+   final db = await instance.database;
+   final maps = await db.query(
+   tableUser,
+   columns: UserField.values,
+   where: '${UserField.mail} = ? AND ${UserField.password} = ?',
+   whereArgs: [email, password], );
+
+   if (maps.isNotEmpty) {
+     return maps[0][UserField.userid] as int?;
+   } else {
+     return null; // User not found
+   }
+ }
 }
 

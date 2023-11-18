@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_app/screens/admin/admin.dart';
 import 'package:frontend_app/Database/Parking_Database.dart';
+import 'package:frontend_app/screens/admin/models/parking.dart';
 import 'package:frontend_app/screens/menu_estacionamientos.dart';
 import 'package:frontend_app/screens/perfil.dart';
 import 'package:frontend_app/screens/register.dart';
@@ -186,6 +187,19 @@ class _LoginPageState extends State<LoginPage> {
                               .readUserByEmailAndPassword(email, password);
                           // Check if the user is found
                           if (user == true) {
+                            // get id con el email y password
+                            int? id = await ParkingDatabase.instance.getUserID(email, password);
+                            // ver si el id corresponde a un id de admin
+                            if (id != null && await ParkingDatabase.instance.checkAdmin(id)) {
+                              // buscar el usuario con el admin
+                              User adminUser = await ParkingDatabase.instance.readUser(id);
+                              // redireccionar a pagina de admin con el nombre del admin
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AdminPage(userName: adminUser.name),),
+                                );
+                            }else{
                             // User found, proceed to MenuEstacionamientos
                             Navigator.push(
                               context,
@@ -193,6 +207,7 @@ class _LoginPageState extends State<LoginPage> {
                                   builder: (context) => MenuEstacionamientos(
                                       isHandicapped: true)),
                             );
+                            }
                           } else {
                             // User not found, show an error dialog
                             showDialog(
@@ -241,17 +256,6 @@ class _LoginPageState extends State<LoginPage> {
                           print('Email: $email\nPassword: $password');
                         },
                       ),
-                      MaterialButton(
-                          child: const Text(
-                            'Admin',
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AdminPage()),
-                            );
-                          }),
                       const SizedBox(
                         height: 50,
                       ),
