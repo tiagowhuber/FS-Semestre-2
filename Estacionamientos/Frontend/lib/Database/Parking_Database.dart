@@ -2,30 +2,33 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:frontend_app/screens/admin/models/parking.dart';
 
-class ParkingDatabase{
-    static final ParkingDatabase instance = ParkingDatabase._init();
-    static Database? _database;
-    ParkingDatabase._init();
-    Future<Database> get database async{
-        if(_database != null) return _database!;
-        _database = await _initDB('Parking.db');
-        return _database!;
-    }
-    Future<Database> _initDB(String filePath) async{
-        final dbPath = await getDatabasesPath(); //getApplicationDocumentsDirectory()
-        final path = join(dbPath, filePath);
-        return await openDatabase(path, version: 1, onCreate: _createDB);
-    }
-    Future _createDB(Database db, int version) async{
-        final idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
-        final idrefType = 'INTEGER PRIMARY KEY';
-        final textType = 'TEXT NOT NULL';
-        final textTypeN = 'TEXT';
-        final integerType = 'INTEGER NOT NULL';
-        final integerTypeN = 'INTEGER';
-        final boolType = 'BOOLEAN NOT NULL';
-        
-        await db.execute('''
+class ParkingDatabase {
+  static final ParkingDatabase instance = ParkingDatabase._init();
+  static Database? _database;
+  ParkingDatabase._init();
+  Future<Database> get database async {
+    if (_database != null) return _database!;
+    _database = await _initDB('Parking.db');
+    return _database!;
+  }
+
+  Future<Database> _initDB(String filePath) async {
+    final dbPath =
+        await getDatabasesPath(); //getApplicationDocumentsDirectory()
+    final path = join(dbPath, filePath);
+    return await openDatabase(path, version: 1, onCreate: _createDB);
+  }
+
+  Future _createDB(Database db, int version) async {
+    final idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
+    final idrefType = 'INTEGER PRIMARY KEY';
+    final textType = 'TEXT NOT NULL';
+    final textTypeN = 'TEXT';
+    final integerType = 'INTEGER NOT NULL';
+    final integerTypeN = 'INTEGER';
+    final boolType = 'BOOLEAN NOT NULL';
+
+    await db.execute('''
         CREATE TABLE $tableUser (
         ${UserField.userid} $idType,
         ${UserField.name} $textType,
@@ -35,7 +38,7 @@ class ParkingDatabase{
         ${UserField.tipo} $integerTypeN
         )
         ''');
-        await db.execute('''
+    await db.execute('''
         CREATE TABLE $tableParking (
         ${ParkingField.parkingid} $idType,
         ${ParkingField.location} $textType,
@@ -43,14 +46,14 @@ class ParkingDatabase{
         ${ParkingField.type} $textType
         )
         ''');
-        await db.execute('''
+    await db.execute('''
         CREATE TABLE $tableDisability (
         ${DisabilityField.userid} $idrefType,
         ${DisabilityField.typeOfDisability} $textType,
         FOREIGN KEY(${DisabilityField.userid}) REFERENCES $tableUser(${UserField.userid})
         )
         ''');
-        await db.execute('''
+    await db.execute('''
         CREATE TABLE $tableReserve (
         ${ReserveField.userid} $integerType,
         ${ReserveField.parkingid} $integerType,
@@ -60,7 +63,7 @@ class ParkingDatabase{
         PRIMARY KEY(${ReserveField.userid},${ReserveField.parkingid})
         )
         ''');
-        await db.execute('''
+    await db.execute('''
         CREATE TABLE $tableParked (
         ${ParkedField.userid} $integerTypeN,
         ${ParkedField.parkingid} $integerType,
