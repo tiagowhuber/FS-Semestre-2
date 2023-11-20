@@ -172,7 +172,6 @@ class _RegisterState extends State<Register> {
                                   borderSide: BorderSide(color: Colors.white), // Color de la línea de borde al estar seleccionado
                                 ),
                               ),
-                              obscureText: true,
                             ),
                           ),
                         ],
