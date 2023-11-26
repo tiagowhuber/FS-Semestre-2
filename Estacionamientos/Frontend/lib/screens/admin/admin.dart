@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend_app/screens/admin/camaras.dart';
 import 'package:frontend_app/screens/admin/estacionamientos.dart';
 import 'package:frontend_app/screens/admin/usuarios.dart';
+import 'package:frontend_app/screens/menu_estacionamientos.dart';
 import 'package:frontend_app/utils/colors.dart';
 
 class AdminPage extends StatelessWidget {
@@ -44,6 +45,14 @@ class AdminPage extends StatelessWidget {
               'Usuarios',
               () {
                 _navigateToPage(context, const ListaUsuarios());
+              },
+            ),
+            _buildButton(
+              context,
+              'Ir a la App',
+              () {
+                _navigateToPage(
+                    context, const MenuEstacionamientos(isHandicapped: false));
               },
             ),
           ],

@@ -195,7 +195,11 @@ class _FormAgregarEstacionamientoState
               decoration: const InputDecoration(
                 labelText: 'Ubicación',
                 labelStyle: TextStyle(color: Colors.white),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: naranjaUdec),
+                ),
               ),
+              cursorColor: naranjaUdec,
             ),
             TextField(
               controller: _locationController,
@@ -203,7 +207,11 @@ class _FormAgregarEstacionamientoState
               decoration: const InputDecoration(
                 labelText: 'Tipo',
                 labelStyle: TextStyle(color: Colors.white),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: naranjaUdec),
+                ),
               ),
+              cursorColor: naranjaUdec,
             ),
             const SizedBox(height: 10.0),
             Row(
@@ -317,7 +325,11 @@ class _FormEditarEstacionamientoState
               decoration: const InputDecoration(
                 labelText: 'Ubicación',
                 labelStyle: TextStyle(color: Colors.white),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: naranjaUdec),
+                ),
               ),
+              cursorColor: naranjaUdec,
             ),
             TextField(
               style: const TextStyle(color: Colors.white),
@@ -325,7 +337,11 @@ class _FormEditarEstacionamientoState
               decoration: const InputDecoration(
                 labelText: 'Tipo',
                 labelStyle: TextStyle(color: Colors.white),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: naranjaUdec),
+                ),
               ),
+              cursorColor: naranjaUdec,
             ),
             TextField(
               style: const TextStyle(color: Colors.white),
@@ -333,7 +349,11 @@ class _FormEditarEstacionamientoState
               decoration: const InputDecoration(
                 labelText: 'Disponibilidad',
                 labelStyle: TextStyle(color: Colors.white),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: naranjaUdec),
+                ),
               ),
+              cursorColor: naranjaUdec,
             ),
           ],
         ),
