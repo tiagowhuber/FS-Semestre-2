@@ -14,10 +14,21 @@ class MenuEstacionamientos extends StatefulWidget {
 class _MenuEstacionamientosState extends State<MenuEstacionamientos> {
   late List<CardEstacion> cards;
 
+  CardEstacion buildHandicapCard(bool isHandicapped) {
+    return CardEstacion(
+      nombre: 'Handicap',
+      ubicacion: 'Lorenzo Arenas 1313',
+      disponibilidad: 'medio',
+      favorito: false,
+      isHandicapped: isHandicapped,
+    );
+  }
+
   void initState() {
     super.initState();
     cards = [
-      if(widget.isHandicapped) CardEstacion(nombre:'Handicap',ubicacion:'Lorenzo Arenas 1313',disponibilidad:'medio',favorito: false, isHandicapped: widget.isHandicapped),
+      if(widget.isHandicapped) buildHandicapCard(widget.isHandicapped),
+      //CardEstacion(nombre:'Handicap',ubicacion:'Lorenzo Arenas 1313',disponibilidad:'medio',favorito: false, isHandicapped: widget.isHandicapped),
       CardEstacion(nombre:'Estacionamiento N.º 1 Pinacoteca',ubicacion:'Lorenzo Arenas 123456',disponibilidad:'bajo',favorito: true),
       CardEstacion(nombre:'Estacionamiento N.º 2 Pinacoteca',ubicacion:'Lorenzo Arenas 123457',disponibilidad:'lleno',favorito: false),
       CardEstacion(nombre:'Estacionamiento Biblioteca Central',ubicacion:'Lorenzo Arenas 987654',disponibilidad:'no disponible',favorito: true),
@@ -35,6 +46,12 @@ class _MenuEstacionamientosState extends State<MenuEstacionamientos> {
       CardEstacion(nombre:'Estacionamiento Biblioteca Central',ubicacion:'Lorenzo Arenas 987654',disponibilidad:'no disponible',favorito: true),
       CardEstacion(nombre:'Estacionamiento N.º 1 Pinacoteca',ubicacion:'Lorenzo Arenas 1313',disponibilidad:'medio',favorito: false)
     ];
+  
+
+    if (!widget.isHandicapped) {
+      cards.removeWhere((card) => card.nombre == 'Handicap');
+      cards.add(buildHandicapCard(widget.isHandicapped));
+    }
   }
 
   @override
