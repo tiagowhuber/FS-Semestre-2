@@ -73,7 +73,8 @@ class CardEstacion extends StatelessWidget {
                           topRight: Radius.circular(25),
                         ),
                         child: Image.asset(
-                          (isHandicapped ?? false) ? 'assets/images/handicapped.jpg' : getImagenByDisponibilidad(disponibilidad),
+                          //(isHandicapped ?? false) ? 'assets/images/handicapped.jpg' : getImagenByDisponibilidad(disponibilidad),
+                          (nombre == 'Handicap') ? 'assets/images/handicapped.jpg' : getImagenByDisponibilidad(disponibilidad),
                           fit: BoxFit.cover,
                           ),
                       ),
@@ -174,3 +175,4 @@ String getImagenByDisponibilidad(String disponibilidad) {
       return "assets/images/nodisponible.jpg";
   }
 }
+
