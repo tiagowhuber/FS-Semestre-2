@@ -213,14 +213,21 @@ class _RegisterState extends State<Register> {
                           String email = _emailController.text;
                           String password = _passwordController.text;
                           var usuario = User(name: user, mail: email, password: password, number: 1); // or admin: 0
-                          ParkingDatabase.instance.createUser(usuario);
+                          // usuario creado
+                          User? created = await ParkingDatabase.instance.createUser(usuario);
+                          // checkbox?
+                          if (isChecked) {
+                            // actualizar usuario a discapacitado
+                            User tmp = created.copy(tipo: Tipo.discapacitado);
+                            ParkingDatabase.instance.updateUser(tmp);
+                          }
                           ParkingDatabase.instance.readAllUsers() ;
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => LoginPage()),
                           );
-                          print('Email: $email\nPassword: $password');
-                          ParkingDatabase.instance.readAllUsers() ;
+                          //print('Email: $email\nPassword: $password');
+                          //ParkingDatabase.instance.readAllUsers() ;
                           // SOLO PARA TESTEO DE LA PAGINA ADMIN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                           // BORRAR ESTO EN LA ENTREGA
                           // el primer usuario registrado (con id=1) va ser admin

@@ -200,13 +200,16 @@ class _LoginPageState extends State<LoginPage> {
                                     builder: (context) => AdminPage(userName: adminUser.name),),
                                 );
                             }else{
+                              // buscar el usuario
+                               if (id != null){
+                              User usuario = await ParkingDatabase.instance.readUser(id);
                             // User found, proceed to MenuEstacionamientos
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => MenuEstacionamientos(
-                                      isHandicapped: true)),
-                            );
+                                     isHandicapped: usuario.tipo == Tipo.discapacitado,)),
+                            );}
                             }
                           } else {
                             // User not found, show an error dialog
